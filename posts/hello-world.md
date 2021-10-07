@@ -16,4 +16,4 @@ Programmers also seem to share more information about their work than any other 
 
 Given all this collaboration and transparency, and because I enjoy writing anyway, contributing my own thoughts in blog format feels natural– [this post](https://sites.google.com/site/steveyegge2/you-should-write-blogs) from Steve Yegge was the catalyst, and here we are.
 
-If just a handful of people find what I produce truly valuable or perspective-changing, I would consider this a productive use of my time. And given my age and the current state of longevity research, I can reasonably expect the next century of my life to hold ample opportunity for interesting blog posts, so this seems likely.
+If just a handful of people find what I produce truly valuable or perspective-changing, I would consider this a productive use of my time. And given my age and the current state of longevity research, I can reasonably expect the next century of my life to hold ample opportunity for interesting blog posts, so this seems likely. 

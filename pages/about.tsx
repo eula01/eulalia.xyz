@@ -44,20 +44,21 @@ export default function About() {
           <p>
             I'm a fullstack software engineer living in the San Francisco Bay
             Area. I'm currently interested in Golang and distributed computing,
-            but generality is my true goal. This site was made to gather my
-            thoughts and code somewhere nice. It's minimal, as{' '}
+            but generality is my true goal. I made this site to gather my
+            thoughts and code in one place; it's minimal, as{' '}
             <a
               href="https://en.wikipedia.org/wiki/Occam%27s_razor"
               target="_blank"
             >
               {' '}
-              everything &#x2197;{' '}
+              everything{' '}
             </a>{' '}
             should be.
           </p>
           <p>
-            If you like building things, have some cool ideas, or just want to talk about code, reach out! Twitter is fastest, but here's
-            my email anyways:
+            If you like building things, have some cool ideas, or just like
+            talking about code, then reach out! Twitter would be fastest, but
+            here's my email anyways:
             <a className="orange"> seanwaplington[át]gmail[dōt]com</a>
           </p>
           Some random things I like:
@@ -80,7 +81,7 @@ export default function About() {
                       style={styles.popper}
                       {...attributes.popper}
                     >
-                      (9/26) we only got one plate back lol
+                      iirc (9/26) we only got one plate back lol
                       <Image src={cake} />
                     </div>
                   </a>

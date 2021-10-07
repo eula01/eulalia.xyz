@@ -120,7 +120,7 @@ export default function Post({
           {source}
         </Markdown>
       </main>
-      <hr />
+      {/* <hr />
       <div className="other-posts">
         {prevPost ? (
           <div className="other-posts-link">
@@ -132,7 +132,7 @@ export default function Post({
             <Link href={`/${nextPost.id}`}>{`${nextPost.title} →`}</Link>{' '}
           </div>
         ) : null}
-      </div>
+      </div> */}
       <style jsx>{`
         header {
           padding-top: 16px;

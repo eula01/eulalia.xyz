@@ -42,7 +42,7 @@ export default function About() {
         />
         <p>
           <p>
-            I'm a fullstack software engineer living in the San Francisco Bay
+            I'm a software engineer living in the San Francisco Bay
             Area. I'm currently interested in Golang and distributed computing,
             but generality is my true goal. I made this site to gather my
             thoughts and code in one place; it's minimal, as{' '}
@@ -51,7 +51,7 @@ export default function About() {
               target="_blank"
             >
               {' '}
-              everything{' '}
+              most things{' '}
             </a>{' '}
             should be.
           </p>
@@ -63,7 +63,7 @@ export default function About() {
           </p>
           Some random things I like:
           <ul>
-            <li>Reading ~200KB/day of Wikipedia (excl. images)</li>
+            <li>Consuming ~200KB/day of Wikipedia (excl. images)</li>
             <li>
               <span className="hover_img">
                 Baking, or a 'productive sugar addiction' –{' '}

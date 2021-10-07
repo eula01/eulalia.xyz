@@ -28,7 +28,7 @@ yarn run start
 
 ## Misc
 - [MIT license](https://opensource.org/licenses/MIT)
-- This site was forked from Andrew Healey's, check him out [here!](https://github.com/healeycodes)
+- This site was forked from [Andrew Healey](https://healeycodes.com/articles)!
 
 ## refactoring notes
 

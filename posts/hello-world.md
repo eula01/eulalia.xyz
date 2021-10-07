@@ -1,7 +1,7 @@
 ---
 title: "hello world"
 date: "2021-08-01"
-tags: [""]
+tags: ["thoughts"]
 description: "my first post"
 ogimage: "./og-image.png"
 ---

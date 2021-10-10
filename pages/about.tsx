@@ -42,63 +42,47 @@ export default function About() {
         />
         <p>
           <p>
-            I'm a software engineer living in the San Francisco Bay
-            Area. I'm currently interested in Golang and distributed computing,
-            but generality is my true goal. I made this site to gather my
-            thoughts and code in one place; it's minimal, as{' '}
-            <a
-              href="https://en.wikipedia.org/wiki/Occam%27s_razor"
-              target="_blank"
-            >
-              {' '}
-              most things{' '}
-            </a>{' '}
-            should be.
+            I'm a software engineer living in San Francisco. My current
+            interests are Golang and distributed computing, but these change;
+            generality is my true goal. I made this site to gather my thoughts
+            and code in one place.
           </p>
           <p>
             If you like building things, have some cool ideas, or just like
-            talking about code, then reach out! Twitter would be fastest, but
-            here's my email anyways:
+            talking about software, then reach out! Twitter would be fastest,
+            but here's my email anyways:
             <a className="orange"> seanwaplington[át]gmail[dōt]com</a>
           </p>
-          Some random things I like:
-          <ul>
-            <li>Consuming ~200KB/day of Wikipedia (excl. images)</li>
-            <li>
-              <span className="hover_img">
-                Baking, or a 'productive sugar addiction' –{' '}
-                <button
-                  className="btn1"
-                  ref={setReferenceElement}
-                  onMouseEnter={handleShow}
-                  onMouseLeave={handleHide}
+          Outside of code, I sometimes{' '}
+          <span className="hover_img">
+            <button
+              className="btn1"
+              ref={setReferenceElement}
+              onMouseEnter={handleShow}
+              onMouseLeave={handleHide}
+            >
+              <a href="#">
+                bake
+                <div
+                  className="popper"
+                  ref={setPopperElement}
+                  style={styles.popper}
+                  {...attributes.popper}
                 >
-                  <a href="#">
-                    at least my neighbors love me :)
-                    <div
-                      className="popper"
-                      ref={setPopperElement}
-                      style={styles.popper}
-                      {...attributes.popper}
-                    >
-                      iirc (9/26) we only got one plate back lol
-                      <Image src={cake} />
-                    </div>
-                  </a>
-                </button>
-              </span>
-            </li>
-            <li>
-              Films (
-              <a
-                href="https://letterboxd.com/clair44/list/100-favourite-films/"
-                target="_blank"
-              >
-                my top 100 &#x2197;
+                  speedrun neighborly love any% :)
+                  <Image src={cake} />
+                </div>
               </a>
-              )
-            </li>
-          </ul>
+            </button>{' '}
+          </span>
+          and watch films (
+          <a
+            href="https://letterboxd.com/clair44/list/100-favourite-films/"
+            target="_blank"
+          >
+            my top 100 &#x2197;
+          </a>
+          ).
         </p>
       </main>
       <style jsx>
@@ -115,6 +99,7 @@ export default function About() {
           }
           .popper {
             display: none;
+            width: 200px;
           }
           .popper[show] {
             display: block;

@@ -18,7 +18,7 @@ export default [
   {
     name: "go-linreg",
     link: "https://github.com/clairdl/go-linreg",
-    desc: "\"machine learning\" in golang",
+    desc: "machine learning in golang",
   },
   {
     name: "eulalia.xyz",

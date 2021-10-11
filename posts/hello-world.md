@@ -10,4 +10,4 @@ There isn't another industry that incentivizes collaboration as much as software
 
 Programmers also share lots of information about their work individually, more so than other professions. Discussion threads can often reveal valuable insights if you dig through them, [HN](https://news.ycombinator.com/news) being consistent at that. Writers like [Paul Graham](http://paulgraham.com/index.html) and [Joel Spolsky](https://www.joelonsoftware.com/) provide condensed wisdom through sheer experience.
 
-I'm excited to join in and publish my own ideas, mostly about programming or philosophy. If only a handful of people find what I produce valuable, I would consider this blog a success, which seems likely given the current state of longevity research; I should be able to reach some intriguing ideas over the next 150 years or so.
+I'm excited to contribute my own ideas, mostly about programming or philosophy. If only a handful of people find what I produce on this blog valuable, I would consider it a success. This seems likely given the state of longevity research; I should be able to reach at least a few intriguing conclusions over the next 150 years or so.

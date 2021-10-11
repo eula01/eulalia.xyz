@@ -1,5 +1,5 @@
 ---
-title: 'hello world'
+title: 'Hello World'
 date: '2021-10-01'
 tags: ['thoughts']
 description: 'my first post'
@@ -10,6 +10,4 @@ There isn't another industry that incentivizes collaboration as much as software
 
 Programmers also share lots of information about their work individually, more so than other professions. Discussion threads can often reveal valuable insights if you dig through them, [HN](https://news.ycombinator.com/news) being consistent at that. Writers like [Paul Graham](http://paulgraham.com/index.html) and [Joel Spolsky](https://www.joelonsoftware.com/) provide condensed wisdom through sheer experience.
 
-Given this collaborative nature and because I enjoy writing, it follows that I want to refine and contribute my own ideas. [This post](https://sites.google.com/site/steveyegge2/you-should-write-blogs) from Steve Yegge was the catalyst, and here we are.
-
-If a handful of people find what I produce on this blog valuable, I would consider it a success. This seems likely given the state of longevity research, as I should be able to reach at least a few intriguing conclusions over a century or two. If I do, I'll be sure to share them here.
+I'm excited to join in and publish my own ideas, mostly about programming or philosophy. If only a handful of people find what I produce valuable, I would consider this blog a success, which seems likely given the current state of longevity research; I should be able to reach some intriguing ideas over the next 150 years or so.

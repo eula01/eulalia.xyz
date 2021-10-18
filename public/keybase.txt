@@ -1,0 +1,59 @@
+eulia_lipnitskia
+Sean W.
+Earth
+==================================================================
+https://keybase.io/eulia_lipnitskia
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://eulalia.xyz
+  * I am eulia_lipnitskia (https://keybase.io/eulia_lipnitskia) on keybase.
+  * I have a public key ASDbkI7nrmLn9dxBM5n-vYAvAeAsGmumNnMqF17xfPe1rAo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120db908ee7ae62e7f5dc413399febd802f01e02c1a6ba636732a175ef17cf7b5ac0a",
+      "host": "keybase.io",
+      "kid": "0120db908ee7ae62e7f5dc413399febd802f01e02c1a6ba636732a175ef17cf7b5ac0a",
+      "uid": "d09792d6b256ee0c74941b9d7d0f9e19",
+      "username": "eulia_lipnitskia"
+    },
+    "merkle_root": {
+      "ctime": 1634590063,
+      "hash": "393411931d6f6bb5773eb627568c05dab9b59f6dfdd6f7c91bea724659713738b296c608a557b022220be46aa88ec95068aa1b5bcbdc87533e52a3c6c6166b5c",
+      "hash_meta": "a50c07555769665ff6222da7f34341a69e3734376a10dd889ef1ff1033f9e28d",
+      "seqno": 21010297
+    },
+    "service": {
+      "entropy": "u5mAvmB6wuXimTlv+T557IzJ",
+      "hostname": "eulalia.xyz",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.8.0"
+  },
+  "ctime": 1634590074,
+  "expire_in": 504576000,
+  "prev": "9818e10f190b057abc0f8db2141497f1fc58c79709546a3bc9442ea70f6ba22c",
+  "seqno": 18,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg25CO565i5/XcQTOZ/r2ALwHgLBprpjZzKhde8Xz3tawKp3BheWxvYWTESpcCEsQgmBjhDxkLBXq8D42yFBSX8fxYx5cJVGo7yUQupw9roizEIEkYdgIlJp9UmvIrvIsf57qJLG57JL11yF4EAWzA7m2eAgHCo3NpZ8RAbI909i5ZdR3V/wkoSO5jvLoYNIXwoF2h0kHbfSL1yb7vWnym554Bi/CtcHigQFCMX/jyIhiDQlN+/Nldu0xMBKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIO4IwPm/++1vk3Yy78REJ/nagw/4YqCx4rQthjWLnpB8o3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/eulia_lipnitskia
+
+==================================================================

@@ -19,33 +19,27 @@ export default function Nav() {
           <li>
             <Link href="/projects">code</Link>
           </li>
-          
           <li className="spacer">
-            <a
-              href={`https://github.com/${siteConfig.AUTHOR_GITHUB}`}
-              target="_blank"
-            >
+            <li>
+              <a href={`https://keybase.io/${siteConfig.AUTHOR_KEYBASE}`} target="_blank">
+                keybase &#x2197;
+              </a>
+            </li>
+
+            <a href={`https://github.com/${siteConfig.AUTHOR_GITHUB}`} target="_blank">
               github &#x2197;
             </a>
           </li>
           <li>
-            <a
-              href={`https://twitter.com/${siteConfig.AUTHOR_TWITTER}`}
-              target="_blank"
-            >
+            <a href={`https://twitter.com/${siteConfig.AUTHOR_TWITTER}`} target="_blank">
               twitter &#x2197;
             </a>
           </li>
           <li>
-            <a
-              href={`https://www.linkedin.com/in/${siteConfig.AUTHOR_LINKEDIN}`}
-              target="_blank"
-            >
+            <a href={`https://www.linkedin.com/in/${siteConfig.AUTHOR_LINKEDIN}`} target="_blank">
               linkedin &#x2197;
             </a>
           </li>
-
-          
         </ul>
       </nav>
       <style jsx>{`
@@ -56,7 +50,7 @@ export default function Nav() {
           padding-right: 10px;
         }
         .spacer {
-          margin-top: 20px
+          margin-top: 20px;
         }
         .nav {
           text-align: left;

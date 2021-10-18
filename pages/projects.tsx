@@ -9,7 +9,7 @@ export default function Projects() {
   return (
     <Layout title="code" description="a selection of my projects">
       <main>
-        <h3 className="spacer">ordered by most recent</h3>
+        <h3 className="spacer" />
         <div className="project-list">
           {projects.map((project, i) => (
             <div className="project" key={i}>
@@ -27,17 +27,14 @@ export default function Projects() {
         </div>
         <h3>
           more on{' '}
-          <a
-            href={`https://github.com/${siteConfig.AUTHOR_GITHUB}`}
-            target="_blank"
-          >
+          <a href={`https://github.com/${siteConfig.AUTHOR_GITHUB}`} target="_blank">
             github &#x2197;
           </a>
         </h3>
       </main>
       <style jsx>{`
         .spacer {
-          padding-bottom: 30px
+          padding-bottom: 30px;
         }
         .project {
           flex: 50%;

@@ -29,7 +29,9 @@ File "<stdin>", line 1, in <module>
 IndexError: list index out of range
 ```
 
-Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line and not the column! For such a trivial example this doesn’t seem too bad. Now imagine that you’re dealing with complex and uncertain datasets, as is often the case in Python, and for each line you delete you get a small hit of dopamine.
+Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line number and not the column! For such a trivial example this doesn’t seem too bad. Now imagine that you’re dealing with large and dynamic datasets, as is often the case in Python, and for each line you delete you get a small hit of dopamine.
+
+I personally think this is a design oversight; why would a language that puts so much emphasis on simplicity and brevity not handle cases where users try to do exactly that? The obvious work-around is to split lookups across different lines, which is what I did, but this felt slightly unpleasant to me.
 
 Btw, people coming from JavaScript may find this behavior strange, because referencing a non-existent property on a JavaScript object won’t raise an index error, but will instead evaluate to ‘undefined’. And yes, we’re still talking about arrays here:
 

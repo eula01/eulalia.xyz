@@ -3,18 +3,21 @@ title: 'Inspecting Python Bytecode'
 date: '2021-10-11'
 tags: ['python']
 description: 'Inspecting Python bytecode'
-ogimage: './og-image.png'
 ---
 
-The more Python I write, the more I appreciate it! Python’s simplicity makes it feel closer to an extension of thought than any other language I’m familiar with. Guido van Rossum captures this sentiment perfectly:
+## Python
+
+Python has grown on me! Its simplicity makes it feel closer to an extension of thought than any other language I’m familiar with. Guido van Rossum himself captures this sentiment perfectly:
 
 > Syntactically, Python code looks like executable pseudocode
 
 High-level features like list comprehensions, slices, and negative indexes almost embed a minigame directly into the source files, the objective being to reduce line counts and constantly look for greater levels of elegance, without rendering your code unreadable.
 
-Python lets you think creatively, as compared with a language like Go, where there’s often a single way to do something; handling errors and reading files are strongly idiomatic. I’ve noticed that when I write Go, I’ll be focused on whether what I’m doing is correct and performant, whereas in Python it’s whether what I’m doing is succinct and beautiful.
+Python lets you think creatively, as compared with a language like Go, where there’s often a single way to do something, like handling errors for example. I’ve noticed that whenever I write Go, I’ll be focused on whether what I’m doing is _correct_ and _performant_, whereas in Python I'm focused on being _succinct_ and _beautiful_. I think this makes programming in Python a little more artistic than other languages, which is very enjoyable.
 
-If you ever find yourself being tempted by a talking python to eat from the Tree of Brevity, then tread carefully, for the road ahead is time-consuming and full of potholes! I fell into one recently whilst trying to squeeze multiple array lookups on the same line, desperate to regain one extra line count. Don’t do this! If just one of those lookups is out of range, then you won’t know which array threw the exception. Also, in hindsight, optimizing for line count is probably not the correct heuristic– I mean paintbrush– remember, you’re an artist, not a programmer now!
+## Err
+
+If you ever find yourself being tempted by a talking python to pick fruits from the Tree of Brevity, then tread carefully; the road ahead is time-consuming and full of potholes! I fell into one recently whilst trying to squeeze multiple array lookups on the same line. Don’t do this! If just one of those lookups is out of range, then you won’t know which array threw the exception. Also, in hindsight, optimizing for line count is probably not the correct heuristic– I mean paintbrush– remember, you’re an artist, not a programmer now!
 
 ```py
 >>> foo = [9, 3, 7]
@@ -26,7 +29,8 @@ File "<stdin>", line 1, in <module>
 IndexError: list index out of range
 ```
 
-Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line and not the column! For such a trivial example this doesn’t seem too bad, but now imagine that you’re dealing with complex and uncertain datasets, and for each line you delete you get a small hit of dopamine.
+Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line and not the column! For such a trivial example this doesn’t seem too bad. Now imagine that you’re dealing with complex and uncertain datasets, as is often the case in Python, and for each line you delete you get a small hit of dopamine.
+
 Btw, people coming from JavaScript may find this behavior strange, because referencing a non-existent property on a JavaScript object won’t raise an index error, but will instead evaluate to ‘undefined’. And yes, we’re still talking about arrays here:
 
 ```js
@@ -34,7 +38,7 @@ Btw, people coming from JavaScript may find this behavior strange, because refer
 >>> 'object'
 ```
 
-Anyways, the reason for the lack of detail in our traceback is because IndexErrors are actually exceptions, not syntax errors. The difference being that exceptions are thrown at runtime, which don’t have access to the column count, whilst syntax errors are thrown during parsing, which do:
+Anyways, the reason for the lack of detail in our traceback is because `IndexErrors` are exceptions, not syntax errors. The difference is that exceptions are thrown at runtime, and Python's runtime environment doesn't have access to the column count, whilst syntax errors are thrown during parsing, which do:
 
 ```py
 >>> while True print('Hello world')
@@ -44,7 +48,7 @@ Anyways, the reason for the lack of detail in our traceback is because IndexErro
 SyntaxError: invalid syntax
 ```
 
-When Python is compiled into bytecode and executed, we drop a bunch of meta-resolution about the source code in the interest of performance, leaving the PythonVM with only what it needs.
+When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html) into bytecode and executed, we drop a bunch of meta-resolution about the source code in the interest of performance, leaving the PythonVM with only what it needs.
 
 Let’s use the dis module to inspect the bytecode and truly understand this:
 
@@ -91,15 +95,27 @@ The output is organized as follows. FYI, the line number starts at 2, because th
 |             | 2                  | LOAD_CONST | 1     | (3)                          |
 | ...         | ...                | ...        | ...   | ...                          |
 
-We can clearly see that a lookup on `foo` is evaluated before a lookup on `bar`, as per instruction #26. I would love to dive into bytecode right now, but for now, take some [documentation](https://docs.python.org/3/library/dis.html#opcode-BINARY_SUBSCR).
+It would be really fun to dive into bytecode, but that isn't our focus today. Take some documentation on the [BINARY_SUBSCR](https://docs.python.org/3/library/dis.html#opcode-BINARY_SUBSCR) opcode instead.
 
-We've found the problem, but this isn't a debugging session: there's nothing to be done here. Or is there?... 
+Looking at instruction #26, we can see that the lookup on `foo` is evaluated before the lookup on `bar`– but we're still not actually sure which lookup threw the `IndexError`. That's because we literally don't have access to that information within the bytecode. Wat do?
 
-### Our Saviour, 3.11
+## PEP 657: Harbinger of Clarity
 
-Pablo Galindo, author of [PEP 657](https://www.python.org/dev/peps/pep-0657/) implemented in Python 3.11, which is currently in alpha and set to release in October 2022. You can find the download here.
+[PEP 657](https://www.python.org/dev/peps/pep-0657/), authored by Pablo Galindo, proposes a mapping between each bytecode instruction number and the column offsets on each line!
 
-As discussed, this feature carries a memory cost, which the authors have acknowledged:
+It's implemented in Python 3.11, which is currently in alpha and set to release in October 2022! You can test it out [here](https://github.com/python/cpython).
+
+It will make our tracebacks look like this:
+
+```py
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(foo[5], bar[5])
+          ~~~^^^
+IndexError: list index out of range
+```
+
+As we've discussed, a feature like this carries a memory cost, which the authors have acknowledged:
 
 > We understand that the extra cost of this information may not be acceptable for some users, so we propose an opt-out mechanism which will cause generated code objects to not have the extra information while also allowing pyc files to not include the extra information.
 
@@ -107,4 +123,4 @@ So they made it opt-out by passing `-Xno_debug_ranges` to `python`.
 
 As we wait for Pablo Galino's PEP to drop, Pablo Escobar waits with us :)
 
-![Pablo](https://c.tenor.com/bZpnYV69q7kAAAAM/kyriostsahs-lonely.gif)
+![Pablo](pablowait.gif)

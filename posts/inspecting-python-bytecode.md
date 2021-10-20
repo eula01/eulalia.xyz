@@ -15,25 +15,25 @@ High-level features like list comprehensions, slices, and negative indexes almos
 
 Python lets you think creatively, as compared with a language like Go, where there’s often a single way to do something, like handling errors for example. I’ve noticed that whenever I write Go, I’ll be focused on whether what I’m doing is _correct_ and _performant_, whereas in Python I'm focused on being _succinct_ and _beautiful_. I think this makes programming in Python a little more artistic than other languages, which is very enjoyable.
 
-## Err
+## Error
 
-If you ever find yourself being tempted by a talking python to pick fruits from the Tree of Brevity, then tread carefully; the road ahead is time-consuming and full of potholes! I fell into one recently whilst trying to squeeze multiple array lookups on the same line. If just one of those lookups is out of range, then you won’t know which array threw the exception.
+If you ever find yourself being tempted (by a talking python) to pick fruits from the Tree of Brevity, then tread carefully; the road ahead is time-consuming and full of potholes! I fell into one recently by trying to squeeze multiple array lookups on the same line. If just one of those lookups is out of range, then you won’t know which array threw the exception.
 
 ```py
 >>> foo = [9, 3, 7]
- >>> bar = [2, 1, 9]
+>>> bar = [2, 1, 9]
 >>> print(foo[5], bar[2])
 
 Traceback (most recent call last):
-File "<stdin>", line 1, in <module>
+File "<stdin>", line 3, in <module>
 IndexError: list index out of range
 ```
 
-Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line number and **not the column offset**. For such a trivial example this doesn’t seem too bad, but imagine that you’re dealing with a large and dynamic dataset, as is often the case in Python, whilst trying to play the brevity minigame.
+Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line number and **not the column offset**. For such a trivial example this doesn’t seem too bad, but imagine that you’re dealing with a large and dynamic dataset, as is often the case in Python, and you're trying to minimize line count (probably not the best heuristic, in hindsight).
 
-Hot take: I think this is a design oversight. Why would a language that puts so much emphasis on simplicity and brevity not handle cases where people try to do exactly that? The obvious work-around is to split lookups across multiple lines, but this feels too hacky and dissatisfying for a syntax like Python.
+I think this is a design oversight. Why would a language that puts so much emphasis on simplicity and brevity not handle cases where people try to do exactly that? The obvious workaround is to split lookups across multiple lines, but this feels too hacky and dissatisfying for a syntax like Python.
 
-Anyways, we can use the dis module to inspect the bytecode and truly understand our problem:
+Anyways, let's use the dis module and see if inspecting the bytecode can help up understand our problem:
 
 ```py
 >>> import dis
@@ -72,11 +72,11 @@ Anyways, we can use the dis module to inspect the bytecode and truly understand 
              38           LOAD_CONST         6          (None)
              40           RETURN_VALUE
 ```
-FYI, `line number` starts at `2`, because source files are 1-indexed, and there are no operations on the first line (`'''`)
+FYI, `line number` starts at `2` because source files are 1-indexed, and there are no operations on the first line (`'''`)
 
 Looking at the `BINARY_SUBSCR` operation (instruction number `26`), we can see that the lookup on `foo` is evaluated before the lookup on `bar`, but that still doesn't tell us which one threw the `IndexError`.
 
-Actually, we can't tell from the bytecode alone, as it literally does not have access to the column number. When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html), we drop a bunch of meta-resolution about the source code in order to remove noise and increase performance, leaving the PythonVM with only what it needs to work– thus all runtime errors lack this detail. 
+Actually, we can't tell from the bytecode alone, as it does not have access to the column number. When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html), we drop a bunch of meta-resolution about the source code to remove noise and increase performance, leaving the PythonVM with only what it needs– thus all runtime errors lack this detail. 
 
 To highlight this, let's look at an error that is thrown _before_ runtime, i.e. during parsing:
 
@@ -109,7 +109,7 @@ As we've discussed, a feature like this carries a memory cost, which the authors
 
 > We understand that the extra cost of this information may not be acceptable for some users, so we propose an opt-out mechanism which will cause generated code objects to not have the extra information while also allowing pyc files to not include the extra information.
 
-So they made it opt-out by passing `-Xno_debug_ranges` to `python`.
+So you can opt-out by passing `-Xno_debug_ranges` to `python`.
 
 Now, as we wait for Pablo Galino's PEP to drop, Pablo Escobar waits with us :)
 

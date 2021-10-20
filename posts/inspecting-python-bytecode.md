@@ -17,7 +17,7 @@ Python lets you think creatively, as compared with a language like Go, where the
 
 ## Err
 
-If you ever find yourself being tempted by a talking python to pick fruits from the Tree of Brevity, then tread carefully; the road ahead is time-consuming and full of potholes! I fell into one recently whilst trying to squeeze multiple array lookups on the same line. Don’t do this! If just one of those lookups is out of range, then you won’t know which array threw the exception. Also, in hindsight, optimizing for line count is probably not the correct heuristic– I mean paintbrush– remember, you’re an artist, not a programmer now!
+If you ever find yourself being tempted by a talking python to pick fruits from the Tree of Brevity, then tread carefully; the road ahead is time-consuming and full of potholes! I fell into one recently whilst trying to squeeze multiple array lookups on the same line. If just one of those lookups is out of range, then you won’t know which array threw the exception.
 
 ```py
 >>> foo = [9, 3, 7]
@@ -29,85 +29,73 @@ File "<stdin>", line 1, in <module>
 IndexError: list index out of range
 ```
 
-Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line number and not the column! For such a trivial example this doesn’t seem too bad. Now imagine that you’re dealing with large and dynamic datasets, as is often the case in Python, and for each line you delete you get a small hit of dopamine.
+Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line number and **not the column offset**. For such a trivial example this doesn’t seem too bad, but imagine that you’re dealing with a large and dynamic dataset, as is often the case in Python, whilst trying to play the brevity minigame.
 
-Hot take: I think this is a design oversight. Why would a language that puts so much emphasis on simplicity and brevity not handle cases where people try to do exactly that? The obvious work-around is to split lookups across multiple lines, which is what I did, but this felt too hacky and dissatisfying for a syntax like Python.
+Hot take: I think this is a design oversight. Why would a language that puts so much emphasis on simplicity and brevity not handle cases where people try to do exactly that? The obvious work-around is to split lookups across multiple lines, but this feels too hacky and dissatisfying for a syntax like Python.
 
-Btw, people coming from JavaScript may find this behavior strange, because referencing a non-existent property on a JavaScript object won’t raise an index error, but will instead evaluate to ‘undefined’. And yes, we’re still talking about arrays here:
-
-```js
->>> typeof []
->>> 'object'
-```
-
-Anyways, the reason for the lack of detail in our traceback is because `IndexErrors` are exceptions, not syntax errors. The difference is that exceptions are thrown at runtime, and Python's runtime environment doesn't have access to the column count, whilst syntax errors are thrown during parsing, which do:
+Anyways, we can use the dis module to inspect the bytecode and truly understand our problem:
 
 ```py
->>> while True print('Hello world')
+>>> import dis
+>>> 
+>>> test = '''
+...        foo = [9, 3, 7]
+...        bar = [2, 1, 9]
+...        print(foo[5], bar[2])
+...        '''
+>>> print(dis.dis(compile(test, "", "exec")))
+
+#  line     instruction     opcode         oparg      the actual resolved 
+# number      number                                      argument
+
+  2           0           LOAD_CONST         0          (9)
+              2           LOAD_CONST         1          (3)
+              4           LOAD_CONST         2          (7)
+              6           BUILD_LIST         3          
+              8           STORE_NAME         0          (foo)
+
+  3          10           LOAD_CONST         3          (2)
+             12           LOAD_CONST         4          (1)
+             14           LOAD_CONST         0          (9)
+             16           BUILD_LIST         3          
+             18           STORE_NAME         1          (bar)
+
+  4          20           LOAD_NAME          2          (print)
+             22           LOAD_NAME          0          (foo)
+             24           LOAD_CONST         5          (5)
+             26           BINARY_SUBSCR   
+             28           LOAD_NAME          1          (bar)
+             30           LOAD_CONST         3          (2)
+             32           BINARY_SUBSCR   
+             34           CALL_FUNCTION      2          
+             36           POP_TOP         
+             38           LOAD_CONST         6          (None)
+             40           RETURN_VALUE
+```
+FYI, `line number` starts at `2`, because source files are 1-indexed, and there are no operations on the first line (`'''`)
+
+Looking at the `BINARY_SUBSCR` operation (instruction number `26`), we can see that the lookup on `foo` is evaluated before the lookup on `bar`, but that still doesn't tell us which one threw the `IndexError`.
+
+Actually, we can't tell from the bytecode alone, as it literally does not have access to the column number. When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html), we drop a bunch of meta-resolution about the source code in order to remove noise and increase performance, leaving the PythonVM with only what it needs to work– thus all runtime errors lack this detail. 
+
+To highlight this, let's look at an error that is thrown _before_ runtime, i.e. during parsing:
+
+```py
+>>> foo = [1, 2, 3 4]
   File "<stdin>", line 1
-    while True print('Hello world')
+    foo = [1, 2, 3 4]
                    ^
 SyntaxError: invalid syntax
 ```
 
-When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html) into bytecode and executed, we drop a bunch of meta-resolution about the source code in the interest of performance, leaving the PythonVM with only what it needs.
+The column offset points at the last valid token with a little `^`. So, are we lost? Not just yet...
 
-Let’s use the dis module to inspect the bytecode and truly understand this:
-
-```py
->>> import dis
->>>
->>> test ='''
-... foo = [9, 3, 7]
-... bar = [2, 1, 9]
-... print(foo[5], bar[2])
-... '''
->>> print(dis.dis(compile(test, "", "exec")))
-
-  2           0 LOAD_CONST               0 (9)
-              2 LOAD_CONST               1 (3)
-              4 LOAD_CONST               2 (7)
-              6 BUILD_LIST               3
-              8 STORE_NAME               0 (foo)
-
-  3          10 LOAD_CONST               3 (2)
-             12 LOAD_CONST               4 (1)
-             14 LOAD_CONST               0 (9)
-             16 BUILD_LIST               3
-             18 STORE_NAME               1 (bar)
-
-  4          20 LOAD_NAME                2 (print)
-             22 LOAD_NAME                0 (foo)
-             24 LOAD_CONST               5 (5)
-             26 BINARY_SUBSCR
-             28 LOAD_NAME                1 (bar)
-             30 LOAD_CONST               3 (2)
-             32 BINARY_SUBSCR
-             34 CALL_FUNCTION            2
-             36 POP_TOP
-             38 LOAD_CONST               6 (None)
-             40 RETURN_VALUE
-```
-
-The output is organized as follows. FYI, the line number starts at 2, because the `'''` counts as a line, and it's 1-indexed.
-
-| line number | instruction number | opcode     | oparg | the actual resolved argument |
-| ----------- | ------------------ | ---------- | ----- | ---------------------------- |
-| 2           | 0                  | LOAD_CONST | 0     | (9)                          |
-|             | 2                  | LOAD_CONST | 1     | (3)                          |
-| ...         | ...                | ...        | ...   | ...                          |
-
-It would be really fun to dive into bytecode, but that isn't our focus today. Take some documentation on the [BINARY_SUBSCR](https://docs.python.org/3/library/dis.html#opcode-BINARY_SUBSCR) opcode instead.
-
-Looking at instruction #26, we can see that the lookup on `foo` is evaluated before the lookup on `bar`– but we're still not actually sure which lookup threw the `IndexError`. That's because we literally don't have access to that information within the bytecode. Wat do?
 
 ## PEP 657: Harbinger of Clarity
 
-[PEP 657](https://www.python.org/dev/peps/pep-0657/), authored by Pablo Galindo, proposes a mapping between each bytecode instruction number and the column offsets on each line!
+[PEP 657](https://www.python.org/dev/peps/pep-0657/), authored by Pablo Galindo, proposes a mapping between instruction numbers and the column offsets on each line! It's implemented in Python 3.11, which is currently in alpha and set to release in October 2022. You can test it out [here](https://github.com/python/cpython).
 
-It's implemented in Python 3.11, which is currently in alpha and set to release in October 2022! You can test it out [here](https://github.com/python/cpython).
-
-It will make our tracebacks look like this:
+It will make our traceback from earlier look like this:
 
 ```py
 Traceback (most recent call last):
@@ -123,6 +111,6 @@ As we've discussed, a feature like this carries a memory cost, which the authors
 
 So they made it opt-out by passing `-Xno_debug_ranges` to `python`.
 
-As we wait for Pablo Galino's PEP to drop, Pablo Escobar waits with us :)
+Now, as we wait for Pablo Galino's PEP to drop, Pablo Escobar waits with us :)
 
 ![Pablo](pablowait.gif)

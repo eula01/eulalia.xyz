@@ -10,22 +10,25 @@ export default function Nav() {
           <li>
             <Link href="/">Sean Waplington</Link>
           </li>
-          <li className="spacer">
+          <div className="spacer" />
+          <li>
             <Link href="/about">about</Link>
           </li>
-          <li className="spacer">
+          <div className="spacer" />
+          <li>
             <Link href="/articles">writing</Link>
           </li>
           <li>
             <Link href="/projects">code</Link>
           </li>
-          <li className="spacer">
-            <li>
-              <a href={`https://keybase.io/${siteConfig.AUTHOR_KEYBASE}`} target="_blank">
-                keybase &#x2197;
-              </a>
-            </li>
+          <div className="spacer" />
 
+          <li>
+            <a href={`https://keybase.io/${siteConfig.AUTHOR_KEYBASE}`} target="_blank">
+              keybase &#x2197;
+            </a>
+          </li>
+          <li>
             <a href={`https://github.com/${siteConfig.AUTHOR_GITHUB}`} target="_blank">
               github &#x2197;
             </a>

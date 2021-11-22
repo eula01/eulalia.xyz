@@ -1,7 +1,7 @@
 import siteConfig from '../siteConfig.json';
 import marsStation from '../public/assets/mars-station.jpeg';
-import cake from '../public/assets/neighborcakes.jpeg'; // cake dims = 3024 × 4032 (0.75)
-import av2 from '../public/assets/av2.jpeg'; // av2 dims = 2320 × 3088 (0.75129534)
+import bread0 from '../public/assets/bread0.jpeg'; // bread0 dims = 3024 × 4032 (0.75)
+import av2 from '../public/assets/av2.jpeg'; // av2 dims = 1080 × 720 (1.5)
 
 import { useState } from 'react';
 import { usePopper } from 'react-popper';
@@ -10,16 +10,12 @@ import Layout from '../components/layout';
 import Image from 'next/dist/client/image';
 
 export default function About() {
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement>(null);
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement>(null);
   // const [arrowElement, setArrowElement] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { styles, attributes, update } = usePopper(
-    referenceElement,
-    popperElement
-  );
+  const { styles, attributes, update } = usePopper(referenceElement, popperElement);
 
   const handleShow = () => {
     popperElement.setAttribute('show', '');
@@ -32,28 +28,20 @@ export default function About() {
   return (
     <Layout title="About" description="About me">
       <main>
-        <Image
-          src={av2}
-          width={127}
-          height={170}
-          alt="me"
-          quality={100}
-          placeholder="blur"
-        />
+        <Image src={av2} width={300} height={200} alt="me" quality={100} placeholder="blur" />
         <p>
           <p>
-            I'm a software engineer living in San Francisco. My current
-            interests are Golang and distributed computing, but these change;
-            generality is my true goal. I made this site to gather my thoughts
-            and code in one place.
+            I'm a software engineer based in Europe. Currently, I'm interested in Golang and
+            distributed computing. This site is for thoughts on programming and anything else I find
+            interesting.
           </p>
           <p>
-            If you like building things, have some cool ideas, or just like
-            talking about software, then reach out! Twitter would be fastest,
-            but here's my email anyways:
+            If you like building things, have ambitious ideas, or just like talking about software,
+            then this is an open invitation to reach out! I rarely check Twitter these days; my
+            email is
             <a className="orange"> seanwaplington[át]gmail[dōt]com</a>
           </p>
-          Outside of code, I sometimes{' '}
+          Some random interests:{' '}
           <span className="hover_img">
             <button
               className="btn1"
@@ -62,27 +50,30 @@ export default function About() {
               onMouseLeave={handleHide}
             >
               <a href="#">
-                bake
+                baking bread
                 <div
                   className="popper"
                   ref={setPopperElement}
                   style={styles.popper}
                   {...attributes.popper}
                 >
-                  speedrun neighborly love any% :)
-                  <Image src={cake} />
+                  <Image src={bread0} width={825} height={1100} />
                 </div>
               </a>
-            </button>{' '}
+            </button>
           </span>
-          and watch films (
-          <a
-            href="https://letterboxd.com/clair44/list/100-favourite-films/"
-            target="_blank"
-          >
-            my top 100 &#x2197;
+          , films (
+          <a href="https://letterboxd.com/clair44/list/100-favourite-films/" target="_blank">
+            my favourites &#x2197;
           </a>
-          ).
+          ),{' '}
+          <a href="https://www.lesswrong.com/" target="_blank">
+            LW
+          </a>
+          ,{' '}
+          <a href="https://www.youtube.com/c/lexfridman/featured" target="_blank">
+            Lex Fridman
+          </a>
         </p>
       </main>
       <style jsx>
@@ -103,10 +94,6 @@ export default function About() {
           }
           .popper[show] {
             display: block;
-          }
-          .hover_img {
-            width: 300px;
-            height: 225px;
           }
           .hover_img a {
             position: relative;

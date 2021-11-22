@@ -38,11 +38,11 @@ export default function Nav() {
               twitter &#x2197;
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href={`https://www.linkedin.com/in/${siteConfig.AUTHOR_LINKEDIN}`} target="_blank">
               linkedin &#x2197;
             </a>
-          </li>
+          </li> */}
         </ul>
       </nav>
       <style jsx>{`

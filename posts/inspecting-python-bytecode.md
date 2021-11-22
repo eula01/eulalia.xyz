@@ -1,23 +1,23 @@
 ---
-title: 'Inspecting Python Bytecode'
+title: 'Tracebacks in Python'
 date: '2021-10-11'
 tags: ['python']
-description: 'Inspecting Python bytecode'
+description: 'Tracebacks in Python'
 ---
 
 ## Python
 
-Python has grown on me! Its simplicity makes it feel closer to an extension of thought than any other language I’m familiar with. Guido van Rossum himself captures this sentiment perfectly:
+Python is closest to an extension of thought than any other language I've used, which makes development fast. Guido van Rossum expresses this sentiment best:
 
 > Syntactically, Python code looks like executable pseudocode
 
-High-level features like list comprehensions, slices, and negative indexes almost embed a minigame directly into the source files, the objective being to reduce line counts and constantly look for greater levels of elegance, without rendering your code unreadable.
+In adherence to [Parkinson's law](https://en.wikipedia.org/wiki/Parkinson%27s_law), time saved writing Python may be reinvested into making it look pretty. High-level features like list comprehensions and negative indexes almost embed a minigame into the source code, the objective being to reduce line counts and increase elegance without compromising on redability.
 
-Python lets you think creatively, as compared with a language like Go, where there’s often a single way to do something, like handling errors for example. I’ve noticed that whenever I write Go, I’ll be focused on whether what I’m doing is _correct_ and _performant_, whereas in Python I'm focused on being _succinct_ and _beautiful_. I think this makes programming in Python a little more artistic than other languages, which is very enjoyable.
+I think this makes Python more artistic than other languages, because readability is quite a subjective end.
 
-## Error
+## Dangerous Game
 
-If you ever find yourself being tempted (by a talking python) to pick fruits from the Tree of Brevity, then tread carefully; the road ahead is time-consuming and full of potholes! I fell into one recently by trying to squeeze multiple array lookups on the same line. If just one of those lookups is out of range, then you won’t know which array threw the exception.
+I got suckered recently whilst balancing that line between readable and pythonic, by trying to squeeze multiple array lookups on the same line. The problem is that if one of those lookups is out of range, then you won’t know which one threw the exception:
 
 ```py
 >>> foo = [9, 3, 7]
@@ -29,11 +29,20 @@ File "<stdin>", line 3, in <module>
 IndexError: list index out of range
 ```
 
-Here, we receive an IndexError after an invalid lookup on foo, but the traceback only gives us the line number and **not the column offset**. For such a trivial example this doesn’t seem too bad, but imagine that you’re dealing with a large and dynamic dataset, as is often the case in Python, and you're trying to minimize line count (probably not the best heuristic, in hindsight).
+As shown, we get an IndexError after an invalid lookup on foo, but the traceback only gives us the line number and **not the column offset**. The obvious solution is to:
 
-I think this is a design oversight. Why would a language that puts so much emphasis on simplicity and brevity not handle cases where people try to do exactly that? The obvious workaround is to split lookups across multiple lines, but this feels too hacky and dissatisfying for a syntax like Python.
+```py
+>>> print(
+>>>     foo[5], 
+>>>     bar[2]
+>>> )
+```
 
-Anyways, let's use the dis module and see if inspecting the bytecode can help up understand our problem:
+But... you're asking me to make a 300% line count increase... in PYTHON!? That feels way too hacky and dissatisfying.
+
+I think this is a design oversight. Why would a language that puts so much emphasis on brevity not handle cases where people try to be brief?
+
+Lets check the bytecode and see if there's a better solution.
 
 ```py
 >>> import dis
@@ -72,30 +81,30 @@ Anyways, let's use the dis module and see if inspecting the bytecode can help up
              38           LOAD_CONST         6          (None)
              40           RETURN_VALUE
 ```
-FYI, `line number` starts at `2` because source files are 1-indexed, and there are no operations on the first line (`'''`)
+FYI, `line number` starts at `2` because source files are 1-indexed, and there are no operations on line 1 (`'''`)
 
-Looking at the `BINARY_SUBSCR` operation (instruction number `26`), we can see that the lookup on `foo` is evaluated before the lookup on `bar`, but that still doesn't tell us which one threw the `IndexError`.
+Looking at the `BINARY_SUBSCR` operation (instruction number `26`), we can see that the lookup on `foo` is evaluated before the lookup on `bar`, but that still doesn't tell us which one threw the `IndexError`. Sadly, the bytecode itself has lost access to the column number.
 
-Actually, we can't tell from the bytecode alone, as it does not have access to the column number. When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html), we drop a bunch of meta-resolution about the source code to remove noise and increase performance, leaving the PythonVM with only what it needs– thus all runtime errors lack this detail. 
+When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html), we drop a bunch of meta-resolution about the source code to remove noise and increase performance, leaving the PythonVM with only what it needs– thus **all runtime errors** lack detail. 
 
-To highlight this, let's look at an error that is thrown _before_ runtime, i.e. during parsing:
+To highlight this, let's look at an error that is thrown _before runtime_, i.e. during parsing:
 
 ```py
->>> foo = [1, 2, 3 4]
+>>> foo = [1, 2 3]
   File "<stdin>", line 1
-    foo = [1, 2, 3 4]
-                   ^
+    foo = [1, 2 3]
+                ^
 SyntaxError: invalid syntax
 ```
 
-The column offset points at the last valid token with a little `^`. So, are we lost? Not just yet...
+As shown, we get the column offset with the `^`. Is it possible to get this resolution at runtime too?
 
 
 ## PEP 657: Harbinger of Clarity
 
-[PEP 657](https://www.python.org/dev/peps/pep-0657/), authored by Pablo Galindo, proposes a mapping between instruction numbers and the column offsets on each line! It's implemented in Python 3.11, which is currently in alpha and set to release in October 2022. You can test it out [here](https://github.com/python/cpython).
+Behold [PEP 657](https://www.python.org/dev/peps/pep-0657/), authored by Pablo Galindo, which proposes a mapping between instruction numbers and column offsets on each line! It's implemented in Python 3.11, which is currently in alpha and set to release in October 2022. You can test it out [here](https://github.com/python/cpython).
 
-It will make our traceback from earlier look like this:
+It will make our traceback from earlier look something like this:
 
 ```py
 Traceback (most recent call last):
@@ -109,8 +118,9 @@ As we've discussed, a feature like this carries a memory cost, which the authors
 
 > We understand that the extra cost of this information may not be acceptable for some users, so we propose an opt-out mechanism which will cause generated code objects to not have the extra information while also allowing pyc files to not include the extra information.
 
-So you can opt-out by passing `-Xno_debug_ranges` to `python`.
+So you may opt-out by passing `-Xno_debug_ranges` to `python`.
 
-Now, as we wait for Pablo Galino's PEP to drop, Pablo Escobar waits with us :)
+
+POV Pablo Escobar waits for Pablo Galino's PEP to drop
 
 ![Pablo](pablowait.gif)

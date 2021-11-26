@@ -1,8 +1,8 @@
 ---
-title: 'Tracebacks in Python'
+title: 'Python: Development, Tracebacks'
 date: '2021-10-11'
 tags: ['python']
-description: 'Tracebacks in Python'
+description: 'Here I discuss topics like development in Python, productivity, and why Python tracebacks suck (and the knight in shining armour that will save us from this terrible fate)'
 ---
 
 > "Syntactically, Python code looks like executable pseudocode" - Guido van Rossum

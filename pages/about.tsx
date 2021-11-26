@@ -64,7 +64,7 @@ export default function About() {
           </span>
           , films (
           <a href="https://letterboxd.com/clair44/list/100-favourite-films/" target="_blank">
-            my favourites &#x2197;
+            my top 100 &#x2197;
           </a>
           ),{' '}
           <a href="https://www.lesswrong.com/" target="_blank">

@@ -5,19 +5,21 @@ tags: ['python']
 description: 'Tracebacks in Python'
 ---
 
-## Python
+> "Syntactically, Python code looks like executable pseudocode" - Guido van Rossum
 
-Python is closest to an extension of thought than any other language I've used, which makes development fast. Guido van Rossum expresses this sentiment best:
+Python development is fast. A succinct syntax lets you crunch through business logic with minimal line counts. An extensive standard library and frameworks like Django can reduce your time-to-market significantly. A shallow learning curve means there are more competent Python programmers relative to other languages like C, which makes hiring easier.
 
-> Syntactically, Python code looks like executable pseudocode
+It would be a mistake to think that the time saved writing Python increases development speed proportionally. In adherence to [Parkinson's law](https://en.wikipedia.org/wiki/Parkinson%27s_law), time saved can easily be siphoned off into unproductive "tasks".
 
-In adherence to [Parkinson's law](https://en.wikipedia.org/wiki/Parkinson%27s_law), time saved writing Python may be reinvested into making it look pretty. High-level features like list comprehensions and negative indexes almost embed a minigame into the source code, the objective being to reduce line counts and increase elegance without compromising on redability.
+Unfortunately for deadlines, Python has one of these "tasks" built-in, and it can be highly engaging, especially for certain OCD-ish or competitive personality types: trying to make your Python code look as elegant and idiomatic as possible while maintaining good readability. High-level features like list comprehensions and negative indexing are some examples. Some _Pythonistas_ are excellent at this despite the subjective nature of 'readability'; they know all the tricks and can craft impressive one-liners that only take a few seconds of thought to understand.
 
-I think this makes Python more artistic than other languages, because readability is quite a subjective end.
+And unless your goal is Python mastery, your productivity gets held hostage every time you're whisked away into an hour of unintentional flow state to indulge in your irrational compulsions of optimizing arbitrary shit that doesn't matter big-picture. Angst will eventually crack you, and when it does, the cortisol spike never feels worth it.
 
-## Dangerous Game
+The solution here is to [develop new alarms](http://www.paulgraham.com/selfindulgence.html) and be aware that you're doing fake work. Here is yours.
 
-I got suckered recently whilst balancing that line between readable and pythonic, by trying to squeeze multiple array lookups on the same line. The problem is that if one of those lookups is out of range, then you won’t know which one threw the exception:
+## Pitfalls
+
+I fell into one recently whilst balancing the line between readable and pythonic, by trying to squeeze multiple array lookups on the same line. The problem is that if one of those lookups is out of range, then you won’t know which one threw the exception:
 
 ```py
 >>> foo = [9, 3, 7]
@@ -38,11 +40,11 @@ As shown, we get an IndexError after an invalid lookup on foo, but the traceback
 >>> )
 ```
 
-But... you're asking me to make a 300% line count increase... in PYTHON!? That feels way too hacky and dissatisfying.
+But... you're asking me to make a 300% line count increase in Python? That feels way too hacky and dissatisfying.
 
 I think this is a design oversight. Why would a language that puts so much emphasis on brevity not handle cases where people try to be brief?
 
-Lets check the bytecode and see if there's a better solution.
+Lets check the bytecode for some insight.
 
 ```py
 >>> import dis
@@ -81,11 +83,11 @@ Lets check the bytecode and see if there's a better solution.
              38           LOAD_CONST         6          (None)
              40           RETURN_VALUE
 ```
-FYI, `line number` starts at `2` because source files are 1-indexed, and there are no operations on line 1 (`'''`)
+BTW, `line number` (leftmost column) starts at `2` because source files are 1-indexed, and there are no operations on line 1.
 
-Looking at the `BINARY_SUBSCR` operation (instruction number `26`), we can see that the lookup on `foo` is evaluated before the lookup on `bar`, but that still doesn't tell us which one threw the `IndexError`. Sadly, the bytecode itself has lost access to the column number.
+Looking at the `BINARY_SUBSCR` operation (instruction number `26`), we can see that the lookup on `foo` is evaluated before the lookup on `bar`, but that still doesn't tell us which one threw the `IndexError`. This means the bytecode itself has lost access to the column number.
 
-When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html), we drop a bunch of meta-resolution about the source code to remove noise and increase performance, leaving the PythonVM with only what it needs– thus **all runtime errors** lack detail. 
+When Python is [compiled](https://nedbatchelder.com/blog/201803/is_python_interpreted_or_compiled_yes.html), we drop a bunch of meta-resolution about the source code to remove noise and increase performance, leaving the PythonVM with only what it needs, thus **all runtime errors** lack detail. 
 
 To highlight this, let's look at an error that is thrown _before runtime_, i.e. during parsing:
 
@@ -97,7 +99,7 @@ To highlight this, let's look at an error that is thrown _before runtime_, i.e. 
 SyntaxError: invalid syntax
 ```
 
-As shown, we get the column offset with the `^`. Is it possible to get this resolution at runtime too?
+As shown, we get the column offset with the `^`. So, is it possible to get this resolution at runtime too?
 
 
 ## PEP 657: Harbinger of Clarity
@@ -116,11 +118,10 @@ IndexError: list index out of range
 
 As we've discussed, a feature like this carries a memory cost, which the authors have acknowledged:
 
-> We understand that the extra cost of this information may not be acceptable for some users, so we propose an opt-out mechanism which will cause generated code objects to not have the extra information while also allowing pyc files to not include the extra information.
+> we propose an opt-out mechanism which will cause generated code objects to not have the extra information
 
-So you may opt-out by passing `-Xno_debug_ranges` to `python`.
+That opt-out flag is `-Xno_debug_ranges`, which you can pass to `python`.
 
-
-POV Pablo Escobar waits for Pablo Galino's PEP to drop
+Pablo waits for Pablo:
 
 ![Pablo](pablowait.gif)

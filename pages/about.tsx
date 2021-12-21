@@ -31,13 +31,14 @@ export default function About() {
         <Image src={av2} width={300} height={200} alt="me" quality={100} placeholder="blur" />
         <p>
           <p>
-            I'm a software engineer based in Europe. Currently, I'm interested in Golang,
-            decentralised computing, and the metaverse. This site is for thoughts on programming and anything else I find
-            interesting.
+            I'm a software engineer based in Europe. This site is for thoughts on programming,
+            rationality, and anything else I find interesting. Currently, I'm interested in Golang,
+            decentralised computing, and Web3.
           </p>
           <p>
             If you like building things, have ambitious ideas, or just like talking about software,
-            then this is an open invitation to reach out! I rarely check Twitter these days– email is best:
+            then this is an open invitation to reach out! I rarely check Twitter these days– email
+            is best:
             <a className="orange"> seanwaplington[át]gmail[dōt]com</a>
           </p>
           Some random interests:{' '}

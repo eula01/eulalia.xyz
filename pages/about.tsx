@@ -31,14 +31,13 @@ export default function About() {
         <Image src={av2} width={300} height={200} alt="me" quality={100} placeholder="blur" />
         <p>
           <p>
-            I'm a software engineer based in Europe. Currently, I'm interested in Golang and
-            distributed computing. This site is for thoughts on programming and anything else I find
+            I'm a software engineer based in Europe. Currently, I'm interested in Golang,
+            decentralised computing, and the metaverse. This site is for thoughts on programming and anything else I find
             interesting.
           </p>
           <p>
             If you like building things, have ambitious ideas, or just like talking about software,
-            then this is an open invitation to reach out! I rarely check Twitter these days; my
-            email is
+            then this is an open invitation to reach out! I rarely check Twitter these days– email is best:
             <a className="orange"> seanwaplington[át]gmail[dōt]com</a>
           </p>
           Some random interests:{' '}
@@ -50,7 +49,7 @@ export default function About() {
               onMouseLeave={handleHide}
             >
               <a href="#">
-                baking bread
+                making bread
                 <div
                   className="popper"
                   ref={setPopperElement}
@@ -62,7 +61,7 @@ export default function About() {
               </a>
             </button>
           </span>
-          , films (
+          , watching films (
           <a href="https://letterboxd.com/clair44/list/100-favourite-films/" target="_blank">
             my top 100 &#x2197;
           </a>
@@ -70,9 +69,9 @@ export default function About() {
           <a href="https://www.lesswrong.com/" target="_blank">
             LW
           </a>
-          ,{' '}
-          <a href="https://www.youtube.com/c/lexfridman/featured" target="_blank">
-            Lex Fridman
+          /
+          <a href="https://slatestarcodex.com/" target="_blank">
+            SSC
           </a>
         </p>
       </main>

@@ -31,17 +31,16 @@ export default function About() {
         <Image src={av2} width={300} height={200} alt="me" quality={100} placeholder="blur" />
         <p>
           <p>
-            I'm a software engineer based in Europe. This site is for thoughts on programming,
-            rationality, and anything else I find interesting. Currently, I'm interested in Golang,
-            decentralised computing, and Web3.
+            I'm a software engineer based in Europe. Currently, I'm interested in Golang and
+            decentralised computing. This site is for thoughts on programming, rationality, and
+            effective altruism. Or anything else, really.
           </p>
           <p>
-            If you like building things, have ambitious ideas, or just like talking about software,
-            then this is an open invitation to reach out! I rarely check Twitter these days– email
-            is best:
-            <a className="orange"> seanwaplington[át]gmail[dōt]com</a>
+            If you want to chat about anything I've written, or life in general, then this is an
+            open invitation to reach out! My Twitter is to your left, or you can email me here:
+            <a className="orange"> seanwaplington@gmail.com</a>
           </p>
-          Some random interests:{' '}
+          To name a few random interests: chess,{' '}
           <span className="hover_img">
             <button
               className="btn1"
@@ -50,7 +49,7 @@ export default function About() {
               onMouseLeave={handleHide}
             >
               <a href="#">
-                making bread
+                bread
                 <div
                   className="popper"
                   ref={setPopperElement}
@@ -66,13 +65,9 @@ export default function About() {
           <a href="https://letterboxd.com/clair44/list/100-favourite-films/" target="_blank">
             my top 100 &#x2197;
           </a>
-          ),{' '}
+          ), browsing{' '}
           <a href="https://www.lesswrong.com/" target="_blank">
-            LW
-          </a>
-          /
-          <a href="https://slatestarcodex.com/" target="_blank">
-            SSC
+            lesswrong
           </a>
         </p>
       </main>

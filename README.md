@@ -1,6 +1,6 @@
 ## eulalia.xyz
 
-Source code for my site, feel free to fork and use as you wish. If you do, let me know on [Twitter](https://twitter.com/eulalia0495), and maybe I can help
+Source code for my site, feel free to fork and use as you wish. If you do, let me know on [Twitter](https://twitter.com/eula392), and maybe I can help
 
 Issues and PRs welcomed
 

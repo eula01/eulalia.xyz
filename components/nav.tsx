@@ -8,7 +8,7 @@ export default function Nav() {
       <nav className="nav">
         <ul>
           <li>
-            <Link href="/">Sean Waplington</Link>
+            <Link href="/">Eula392</Link>
           </li>
           <div className="spacer" />
           <li>
@@ -23,16 +23,6 @@ export default function Nav() {
           </li>
           <div className="spacer" />
 
-          <li>
-            <a href={`https://keybase.io/${siteConfig.AUTHOR_KEYBASE}`} target="_blank">
-              keybase &#x2197;
-            </a>
-          </li>
-          <li>
-            <a href={`https://github.com/${siteConfig.AUTHOR_GITHUB}`} target="_blank">
-              github &#x2197;
-            </a>
-          </li>
           <li>
             <a href={`https://twitter.com/${siteConfig.AUTHOR_TWITTER}`} target="_blank">
               twitter &#x2197;

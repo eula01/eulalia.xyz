@@ -2,7 +2,7 @@ export default [
   {
     name: "marskafka",
     link: "https://github.com/clairdl/marskafka",
-    desc: "a distributed kafka pipeline that colorizes & tweets mars rover images using deep learning!",
+    desc: "a distributed kafka pipeline that colorizes then tweets mars rover images using deep learning!",
     to: "/mars-kafka-writeup"
   },
   {
@@ -13,12 +13,12 @@ export default [
   {
     name: "libox",
     link: "https://github.com/clairdl/libox",
-    desc: "a classic movie tracker in react/redux/typescript",
+    desc: "the classic movie tracker app in TS/React/Redux",
   },
   {
     name: "go-linreg",
     link: "https://github.com/clairdl/go-linreg",
-    desc: "machine learning in golang",
+    desc: "ML in golang",
   },
   {
     name: "eulalia.xyz",
@@ -28,6 +28,6 @@ export default [
   {
     name: "groundhog",
     link: "https://github.com/Groundhog-Day",
-    desc: "a postgres database service written in nodejs, designed to handle 50,000,000+ rows",
+    desc: "a fast postgres/node database service, tested up to 50,000,000+ rows",
   },
 ];

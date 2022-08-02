@@ -1,74 +1,81 @@
-import siteConfig from '../siteConfig.json';
-import marsStation from '../public/assets/mars-station.jpeg';
-import bread0 from '../public/assets/bread0.jpeg'; // bread0 dims = 3024 × 4032 (0.75)
-import av2 from '../public/assets/av2.jpeg'; // av2 dims = 1080 × 720 (1.5)
+import siteConfig from "../siteConfig.json";
+import marsStation from "../public/assets/mars-station.jpeg";
+import av2 from "../public/assets/hrgrad.jpeg";
 
-import { useState } from 'react';
-import { usePopper } from 'react-popper';
+import { useState } from "react";
+import { usePopper } from "react-popper";
 
-import Layout from '../components/layout';
-import Image from 'next/dist/client/image';
+import Layout from "../components/layout";
+import Image from "next/dist/client/image";
 
 export default function About() {
-  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement>(null);
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLButtonElement>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement>(null);
   // const [arrowElement, setArrowElement] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { styles, attributes, update } = usePopper(referenceElement, popperElement);
+  const { styles, attributes, update } = usePopper(
+    referenceElement,
+    popperElement
+  );
 
   const handleShow = () => {
-    popperElement.setAttribute('show', '');
+    popperElement.setAttribute("show", "");
     update();
   };
   const handleHide = () => {
-    popperElement.removeAttribute('show');
+    popperElement.removeAttribute("show");
   };
 
   return (
     <Layout title="About" description="About me">
       <main>
-        <Image src={av2} width={300} height={200} alt="me" quality={100} placeholder="blur" />
+        <Image
+          src={av2}
+          width={2436}
+          height={1624}
+          alt="me"
+          quality={100}
+          placeholder="blur"
+        />
+        (DM me on Twitter with who you think i am... if you guess correctly you
+        win something)
         <p>
           <p>
-            I'm a software engineer based in Europe. Currently, I'm interested in Golang and
-            decentralised computing. This site is for thoughts on programming, rationality, and
-            effective altruism. Or anything else, really.
+            I'm a relatively generalized software engineer, specialized in web
+            development. For fun, I'm interested in Golang and decentralized
+            computing (I'm not a cryptobro, don't worry).
           </p>
           <p>
-            If you want to chat about anything I've written, or life in general, then this is an
-            open invitation to reach out! My Twitter is to your left, or you can email me here:
-            <a className="orange"> seanwaplington@gmail.com</a>
+            I'm in London for the time being, so if you're around and want to
+            hang out, hit me up on Twitter! (obviously, I will be moving to the
+            US as soon as I can)
           </p>
-          To name a few random interests: chess,{' '}
-          <span className="hover_img">
-            <button
-              className="btn1"
-              ref={setReferenceElement}
-              onMouseEnter={handleShow}
-              onMouseLeave={handleHide}
-            >
-              <a href="#">
-                bread
-                <div
-                  className="popper"
-                  ref={setPopperElement}
-                  style={styles.popper}
-                  {...attributes.popper}
-                >
-                  <Image src={bread0} width={825} height={1100} />
-                </div>
-              </a>
-            </button>
-          </span>
-          , watching films (
-          <a href="https://letterboxd.com/clair44/list/100-favourite-films/" target="_blank">
-            my top 100 &#x2197;
-          </a>
-          ), browsing{' '}
-          <a href="https://www.lesswrong.com/" target="_blank">
-            lesswrong
-          </a>
+          <p>
+            Epistemic overview:
+            <ul>
+              <li>
+                I'm deeply optimistic & extremely excited about the future
+              </li>
+              <li>
+                I code because it's fun and it's the most effective way to build
+              </li>
+              <li>
+                I'm something like a postrat (or adjacent) and I reject the core
+                premise of Effective Altruism. Let us accelerate into AGI, the
+                heart of X-risk!
+              </li>
+              <li>
+                I think Earth is serverly underpopulated (she can support 10
+                quadrillion humans with current tech) and that you're probably
+                nowhere near as pronatalist as you should be
+              </li>
+              <li>I will live for 140 years (minimum)</li>
+            </ul>
+            I'll keep expanding this list, and convert it to a blogpost when
+            needed. You are witnessing KISS in action!
+          </p>
         </p>
       </main>
       <style jsx>
